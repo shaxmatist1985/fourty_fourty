@@ -1,0 +1,14 @@
+{% extends 'first/base.html' %}
+{% block content %}
+<h1>this main page</h1>
+<ul class="line-articles">
+    {% for p in posts %}
+    <li>
+        <h1>{{p.title}}</h1>
+        <p>{{p.content|linebreaks|truncatewords:30}}</p>
+        <div class='clear'></div>
+        <p class="link-read-post"><a href="#">Read post</a></p>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
