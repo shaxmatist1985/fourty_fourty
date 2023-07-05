@@ -10,10 +10,13 @@ menu=[{'title': 'About site', 'url_name': 'about'},
 
 def index(request):
     posts=Man.objects.all()
+    cats=Category.objects.all()
     context ={
         'posts': posts,
+        'cats':cats,
         'menu': menu,
-        'title':'main page'
+        'title':'main page',
+        'cat_selected':0,
     }
     return render(request, 'first/index.html', context=context)
 
@@ -28,6 +31,25 @@ def contact(request):
 
 def login(request):
     return HttpResponse('<h1>login</h1>')
+
+def show_post(request, post_id):
+    return HttpResponse(f'<h1>show post with id</h1><p>{post_id}</p>')
+
+def show_category(request, cat_id):
+    posts = Man.objects.filter(cat_id=cat_id)
+    cats = Category.objects.all()
+
+    if len(posts) == 0:
+        raise Http404
+
+    context = {
+        'posts': posts,
+        'cats': cats,
+        'menu': menu,
+        'title': 'main page',
+        'cat_selected': cat_id,
+    }
+    return render(request, 'first/index.html', context=context)
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>this page not found</h1>')
